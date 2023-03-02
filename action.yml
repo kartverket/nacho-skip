@@ -26,10 +26,13 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
     - run: |
-        PRODUCT_NAME=$(echo $SERVICE_ACCOUNT | sed 's/-deploy.*//')
-        DEFAULT_WORKLOAD_IDENTITY="projects/$AUTH_PROJECT_NUMBER/locations/global/workloadIdentityPools/$PRODUCT_NAME-deploy-pool/providers/github-provider"
-        OVERRIDE=$WORKLOAD_IDENTITY_PROVIDER_OVERRIDE
+        PRODUCT_NAME=$(echo ${{ inputs.service_account }} | sed 's/-deploy.*//')
+        DEFAULT_WORKLOAD_IDENTITY="projects/${{ inputs.auth_project_number }}/locations/global/workloadIdentityPools/$PRODUCT_NAME-deploy-pool/providers/github-provider"
+        OVERRIDE=${{ inputs.workload_identity_provider_override }}
         PROVIDER=${OVERRIDE:-$DEFAULT_WORKLOAD_IDENTITY}
         echo "WORKLOAD_IDENTITY_PROVIDER=$PROVIDER" >> $GITHUB_OUTPUT
       shell: bash
