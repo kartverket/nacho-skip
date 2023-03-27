@@ -57,6 +57,6 @@ runs:
         identity_token: ${{ steps.google_auth.outputs.id_token }}
         registry: ${{ inputs.image_registry }}
         # Not needed for running non keyless sign
-        verify_attestation: "false"
+        verify_attestation: "true"
       env:
         COSIGN_EXPERIMENTAL: "true"
