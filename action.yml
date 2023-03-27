@@ -56,7 +56,6 @@ runs:
         key: gcpkms://projects/skip-sandbox-37c2/locations/europe/keyRings/test-ring/cryptoKeys/salsa-test-key
         identity_token: ${{ steps.google_auth.outputs.id_token }}
         registry: ${{ inputs.image_registry }}
-        # Not needed for running non keyless sign
         verify_attestation: "true"
       env:
         COSIGN_EXPERIMENTAL: "true"
