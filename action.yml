@@ -49,12 +49,14 @@ runs:
         id_token_audience: sigstore
         id_token_include_email: true
 
-    - uses: nais/salsa@v0.9
+    - uses: nais/salsa@v0.10
       with:
         image: ${{ inputs.image_name }}
         image_digest: ${{ inputs.image_digest }}
         key: gcpkms://projects/skip-sandbox-37c2/locations/europe/keyRings/test-ring/cryptoKeys/salsa-test-key
         identity_token: ${{ steps.google_auth.outputs.id_token }}
         registry: ${{ inputs.image_registry }}
+        # Not needed for running non keyless sign
+        verify_attestation: false
       env:
         COSIGN_EXPERIMENTAL: "true"
