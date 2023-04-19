@@ -11,7 +11,7 @@ inputs:
     description: "The GCP service account connected to the identity pool that will be used to authenticate with GCP."
     required: true
   image_name:
-    description: "Image name of the image to sign. In the format <REGISTRY>/<FOLDER>/<NAME>, where <FOLDER> is optional. Example: `ghcr.io/kartverket/skip`"
+    description: "Image name of the image to sign. In the format <FOLDER>/<NAME>, where <FOLDER> is optional. Example: `kartverket/skip`"
     required: true
   image_digest:
     description: "Image digest of the image to sign. Looks like `sha256:a428de44a9059f31a59237a5881c2d2cffa93757d99026156e4ea544577ab7f3`."
@@ -51,7 +51,7 @@ runs:
 
     - uses: nais/salsa@v0.10
       with:
-        image: ${{ inputs.image_name }}
+        image: ${{ inputs.image_registry }}/${{ inputs.image_name }}
         image_digest: ${{ inputs.image_digest }}
         key: gcpkms://projects/skip-sandbox-37c2/locations/europe/keyRings/test-ring/cryptoKeys/salsa-test-key
         identity_token: ${{ steps.google_auth.outputs.id_token }}
