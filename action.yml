@@ -49,7 +49,7 @@ runs:
         id_token_audience: sigstore
         id_token_include_email: true
 
-    - uses: nais/salsa@v0.10
+    - uses: nais/salsa@v0.11
       with:
         image: ${{ inputs.image_registry }}/${{ inputs.image_name }}
         image_digest: ${{ inputs.image_digest }}
