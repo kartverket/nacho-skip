@@ -3,7 +3,6 @@
 <p align="center">
 <img src="https://i.imgur.com/6oIR0fz.png" alt="Nacho SKIP Logo"  width="20%">
 <br/>
-<sub><i>pharos</i> - (historical) An ancient lighthouse or beacon to guide sailors.</sub>
 </p>
 
 <hr/>
