@@ -53,9 +53,8 @@ runs:
       with:
         image: ${{ inputs.image_registry }}/${{ inputs.image_name }}
         image_digest: ${{ inputs.image_digest }}
-        key: gcpkms://projects/skip-sandbox-37c2/locations/europe/keyRings/test-ring/cryptoKeys/salsa-test-key
         identity_token: ${{ steps.google_auth.outputs.id_token }}
         registry: ${{ inputs.image_registry }}
-        verify_attestation: "false"
+        verify_attestation: "true"
       env:
         COSIGN_EXPERIMENTAL: "true"
