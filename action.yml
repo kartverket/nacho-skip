@@ -49,12 +49,10 @@ runs:
         id_token_audience: sigstore
         id_token_include_email: true
 
-    - uses: nais/salsa@v0.11
+    - uses: nais/salsa@v0.12
       with:
         image: ${{ inputs.image_registry }}/${{ inputs.image_name }}
         image_digest: ${{ inputs.image_digest }}
         identity_token: ${{ steps.google_auth.outputs.id_token }}
         registry: ${{ inputs.image_registry }}
-        verify_attestation: "true"
-      env:
-        COSIGN_EXPERIMENTAL: "true"
+        verify_attestation: false
