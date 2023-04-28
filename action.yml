@@ -55,4 +55,4 @@ runs:
         image_digest: ${{ inputs.image_digest }}
         identity_token: ${{ steps.google_auth.outputs.id_token }}
         registry: ${{ inputs.image_registry }}
-        verify_attestation: false
+        verify_attestation: true
