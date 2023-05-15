@@ -7,7 +7,7 @@
 
 <hr/>
 
-A composite GitHub Action for authenticating with Kartverket and SKIP while using NAIS's salsa action for image provenance.
+A composite GitHub Action for authenticating with GCP@Kartverket and SKIP while using cosign for image signing and verification. As of the current version cosign is used only to sign and verify an image, but in the future there will hopefully be ways of attesting and attaching SBOMs to the image using the SLSA framework.
 
 ### Inputs
 
