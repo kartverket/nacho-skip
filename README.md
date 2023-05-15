@@ -39,7 +39,6 @@ The service accounts generally look like this: `product-deploy@product-environme
 Using the action is very simple, and may be added as a separate job in your workflow, or as a step in an existing job.
 
 The job which runs the action must have the following permissions:
-`
 
 - `id-token: write`
 - `packages: write`
@@ -65,3 +64,5 @@ nacho-skip:
 ```
 
 Here, the `$IMAGE_DIGEST` variable would typically come from the output of a previous build step or job.
+
+Note: It is not recommended to run using the `@main` annotation for the action. Instead, one should run a version to avoid running into unwanted breaking changes between runs of your pipeline.
