@@ -23,6 +23,9 @@ inputs:
   workload_identity_provider_override:
     description: "The ID of the provider to use for authentication. Only used for overriding the default workload identity provider based on project number. It should be in the format of `projects/{{project}}/locations/global/workloadIdentityPools/{{workload_identity_pool_id}}/providers/{{workload_identity_pool_provider_id}}`"
     required: false
+  registry_token:
+    description: "A PAT with write access to the package to sign. Required if runnning in a private repository."
+    required: false
 runs:
   using: "composite"
   steps:
@@ -62,6 +65,8 @@ runs:
     - name: Sign Image Using Google Identity Token
       shell: bash
       run: cosign sign --identity-token ${{ steps.google_auth.outputs.id_token }} ${{ steps.image_out.outputs.FULL_IMAGE_OUTPUT }}
+      env:
+        COSIGN_PASSWORD: ${{ inputs.registry_token}}
 
     - name: Verify Sign was OK
       shell: bash
