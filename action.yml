@@ -47,10 +47,10 @@ runs:
       with:
         cosign-release: v2.0.2
 
-    - name: Login to GHCR
+    - name: Login to registry
       uses: docker/login-action@v2
       with:
-        registry: ghcr.io
+        registry: ${{ inputs.image_registry }}
         username: ${{ github.actor }}
         password: ${{ github.token }}
 
@@ -71,7 +71,7 @@ runs:
 
     - name: Sign Image Using Google Identity Token
       shell: bash
-      run: cosign sign --identity-token ${{ steps.google_auth.outputs.id_token }} ${{ steps.image_out.outputs.FULL_IMAGE_OUTPUT }}
+      run: cosign sign --yes --identity-token ${{ steps.google_auth.outputs.id_token }} ${{ steps.image_out.outputs.FULL_IMAGE_OUTPUT }}
 
     - name: Verify Sign was OK
       shell: bash
