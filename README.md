@@ -7,9 +7,23 @@
 
 <hr/>
 
-A composite GitHub Action for authenticating with Kartverket and SKIP while using NAIS's salsa action for image provenance.
+A composite GitHub Action for authenticating with GCP@Kartverket using Workload Identity Federation using cosign for image signing and verification.
 
-### Inputs
+As of the current version cosign is used only to sign and verify an image, but in the future there will hopefully be ways of attesting and attaching SBOMs to the image using the SLSA framework.
+
+### Notes
+
+As of now, only GitHub Container Image Registry is tested and officially supported as a container registry. It may work with other registries, but these have not been tested.
+
+## Workload Identity Federation (WIF)
+
+To be able to sign using cosign you must first be able to authenticate your repo with WIF.
+
+All product teams @Kartverket using GCP should have a service account configured to be able to use WIF on the SKIP platform. While additional accounts can be requested, product teams have a baseline deploy service account that is added to every relevant repo the product team manages.
+
+The service accounts generally look like this: `product-deploy@product-environment-abc4.iam.gserviceaccount.com`, and is what should be added to the input `service_account`. This, in addition with `auth_project_number`, which refers to the GCP project the service account exists in, is enough to be able to verify that the service account and the project has setup WIF for the repo running this action.
+
+## Inputs
 
 | Key                                 | Required | Description                                                                                                                                                                                                                                                                                                           |
 | ----------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -25,7 +39,6 @@ A composite GitHub Action for authenticating with Kartverket and SKIP while usin
 Using the action is very simple, and may be added as a separate job in your workflow, or as a step in an existing job.
 
 The job which runs the action must have the following permissions:
-`
 
 - `id-token: write`
 - `packages: write`
@@ -51,3 +64,5 @@ nacho-skip:
 ```
 
 Here, the `$IMAGE_DIGEST` variable would typically come from the output of a previous build step or job.
+
+Note: It is not recommended to run using the `@main` annotation for the action. Instead, one should run a version to avoid running into unwanted breaking changes between runs of your pipeline.
