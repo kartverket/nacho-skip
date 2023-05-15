@@ -39,6 +39,11 @@ runs:
       id: set_wip
       name: Set Workload Identity Provider
 
+    - uses: sigstore/cosign-installer@v3.0.3
+      name: Install Cosign
+      with:
+        cosign-release: v2.0.2
+
     - uses: google-github-actions/auth@v1
       id: google_auth
       name: Authenticate With Google
@@ -49,13 +54,15 @@ runs:
         id_token_audience: sigstore
         id_token_include_email: true
 
-    - uses: nais/salsa@v0.11
-      with:
-        image: ${{ inputs.image_registry }}/${{ inputs.image_name }}
-        image_digest: ${{ inputs.image_digest }}
-        key: gcpkms://projects/skip-sandbox-37c2/locations/europe/keyRings/test-ring/cryptoKeys/salsa-test-key
-        identity_token: ${{ steps.google_auth.outputs.id_token }}
-        registry: ${{ inputs.image_registry }}
-        verify_attestation: "false"
-      env:
-        COSIGN_EXPERIMENTAL: "true"
+    - name: Set Full Image Output
+      id: image_out
+      shell: bash
+      run: echo "FULL_IMAGE_OUTPUT=${{ inputs.image_registry }}/${{ inputs.image_name }}@${{ inputs.image_digest }}" >> $GITHUB_OUTPUT
+
+    - name: Sign Image Using Google Identity Token
+      shell: bash
+      run: cosign sign --identity-token ${{ steps.google_auth.outputs.id_token }} ${{ steps.image_out.outputs.FULL_IMAGE_OUTPUT }}
+
+    - name: Verify Sign was OK
+      shell: bash
+      run: cosign verify --certificate-identity ${{ inputs.service_account }} --certificate-oidc-issuer https://accounts.google.com ${{ steps.image_out.outputs.FULL_IMAGE_OUTPUT }}
