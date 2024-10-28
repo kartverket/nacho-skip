@@ -10,29 +10,3 @@ spec:
   lifecycle: "production"
   owner: "skip"
   system: "skip"
----
-apiVersion: "backstage.io/v1alpha1"
-kind: "Group"
-metadata:
-  name: "security_champion_nacho-skip"
-  title: "Security Champion nacho-skip"
-spec:
-  type: "security_champion"
-  parent: "it_security_champions"
-  members:
-  - "omaen"
-  children:
-  - "resource:nacho-skip"
----
-apiVersion: "backstage.io/v1alpha1"
-kind: "Resource"
-metadata:
-  name: "nacho-skip"
-  links:
-  - url: "https://github.com/kartverket/nacho-skip"
-    title: "nacho-skip på GitHub"
-spec:
-  type: "repo"
-  owner: "security_champion_nacho-skip"
-  dependencyOf:
-  - "component:nacho-skip"
